@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+import React from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native'; 
+import Login from "./app/Login";
+import Register from "./app/Register";
+import Profile from "./app/Profile";
+import Run from "./app/Run";
+import Team from "./app/Team";
+
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function Home() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Run" component={Run} />
+      <Tab.Screen name="Team" component={Team} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} options={{title: "Login"}}></Stack.Screen>
+        <Stack.Screen name="Register" component={Register} options={{title: "Sign up"}}></Stack.Screen>
+        <Stack.Screen name="Home" component={Home}></Stack.Screen>
+      </Stack.Navigator>    
+    </NavigationContainer>
+  )
+}
+
