@@ -89,7 +89,7 @@ export const Run = ({navigation}) =>{
             borderRadius: 5
           },
           btnText:{
-            fontSize: 20,
+            fontSize: 18,
             textAlign: 'center',
           }
     });
@@ -97,11 +97,11 @@ export const Run = ({navigation}) =>{
     const options = {
         container: {
           padding: 5,
-          width: 200,
+          width: 250,
           alignItems: 'center',
         },
         text: {
-          fontSize: 40,
+          fontSize: 50,
           color: 'black',
           marginLeft: 7,
         },
