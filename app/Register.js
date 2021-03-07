@@ -1,19 +1,60 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { firebase } from '../firebase/config'
 
 const ScreenContainer = ({ children }) => (
     <View style={styles.container}>{children}</View>
   );
 
 export const Register = ({navigation}) =>{
+
+
+    const [fullName, setFullName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const onRegisterPress = () => {
+        if (password !== confirmPassword) {
+            alert("Passwords don't match.")
+            return
+        }
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                    fullName,
+                };
+                const usersRef = firebase.firestore().collection('users')
+                usersRef
+                    .doc(uid)
+                    .set(data)
+                    .then(() => {
+                        alert("Registeration Successfull")
+                    })
+                    .catch((error) => {
+                        alert(error)
+                    });
+            })
+            .catch((error) => {
+                alert(error)
+        });
+    }
+
+    
         return(
             <ScreenContainer>
                 <Text style={styles.login_message}>Login to Group Fitness</Text>
-                <TextInput style={styles.input2} placeholder="Username"></TextInput>
-                <TextInput style={styles.input2} placeholder="Password" secureTextEntry></TextInput>
-                <TextInput style={styles.input2} placeholder="Re-enter Password"></TextInput>
+                <TextInput style={styles.input} placeholder="Full name" onChangeText={(text) => setFullName(text)} value={fullName}></TextInput>
+                <TextInput style={styles.input2} placeholder="Username" onChangeText={(text) => setEmail(text)} value={email}></TextInput>
+                <TextInput style={styles.input2} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
+                <TextInput style={styles.input2} placeholder="Confirm Password" onChangeText={(text) => setConfirmPassword(text)} value={confirmPassword}></TextInput>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.usrBtn} onPress={() => alert("Registeration Successfull")}>
+                    <TouchableOpacity style={styles.usrBtn} onPress={() => onRegisterPress()}>
                         <Text style={styles.btnText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

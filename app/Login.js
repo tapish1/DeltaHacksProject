@@ -1,19 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { firebase } from '../firebase/config'
 
 const ScreenContainer = ({ children }) => (
   <View style={styles.container}>{children}</View>
 );
 
 export const Login = ({navigation}) =>{
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const onLoginPress = () => {
+    firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((response) => {
+            const uid = response.user.uid
+            const usersRef = firebase.firestore().collection('users')
+            usersRef
+                .doc(uid)
+                .get()
+                .then(firestoreDocument => {
+                    if (!firestoreDocument.exists) {
+                        alert("User does not exist anymore.")
+                        return;
+                    }
+                    const user = firestoreDocument.data()
+                    navigation.push("Home")
+                })
+                .catch(error => {
+                    alert(error)
+                });
+        })
+        .catch(error => {
+            alert(error)
+        })
+}
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.login_message}>Login to Group Fitness</Text>
-      <TextInput style={styles.input} placeholder="Username"></TextInput>
-      <TextInput style={styles.input2} placeholder="Password" secureTextEntry></TextInput>
+      <TextInput style={styles.input} placeholder="Username" onChangeText={(text) => setEmail(text)} value={email}></TextInput>
+      <TextInput style={styles.input2} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.usrBtn}>
-          <Text style={styles.btnText} onPress={() => navigation.push("Home")}>Login</Text>
+          <Text style={styles.btnText} onPress={() => onLoginPress()}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.usrBtn} onPress={() => navigation.push("Register")}>
           <Text style={styles.btnText}>Register</Text>
