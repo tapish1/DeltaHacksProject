@@ -1,9 +1,8 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity,Alert} from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
-import { Location, Permissions} from 'expo';
+import * as Location from 'expo-location';
 state = {
-    location: null,
     timer: null,
     counter: '00',
     miliseconds: '00',
@@ -11,7 +10,7 @@ state = {
     stopDisabled: false,
     errorMessage: '',
     
-}
+};
 
  
 export const Run = ({navigation}) =>{
@@ -19,13 +18,13 @@ export const Run = ({navigation}) =>{
     const [isStopwatchStart, setIsStopwatchStart] = useState(false);
     const [stopwatchTime, setIsStopwatchTime] = useState(0);
     const [resetStopwatch, setResetStopwatch] = useState(false);
-    
+    const [location , setLocation] = useState(null);
     findCoordinates = () => {
       navigator.geolocation.getCurrentPosition(
         position => {
           const location = JSON.stringify(position);
   
-          this.setState({ location });
+          setLocation(Location)
         },
         error => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -70,15 +69,15 @@ export const Run = ({navigation}) =>{
         <View> 
 
         <View style={styles.container}>
-          <TouchableOpacity onPress={this.findCoordinates}>
+          <TouchableOpacity onPress={findCoordinates}>
             <Text style={styles.welcome}>Find My Coords?</Text>
-            <Text>Location: {this.state.location}</Text>
           </TouchableOpacity>
+            <Text>  Location: {location} </Text>
 			</View>
         </View>
         </View>
     )}
-
+// 
     const styles = StyleSheet.create({
         container: {
           flex: 1,
