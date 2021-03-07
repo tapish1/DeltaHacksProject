@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 import * as Location from 'expo-location';
+import { getDistance, getPreciseDistance } from 'geolib';
 
 
 state = {
@@ -9,10 +10,8 @@ state = {
     counter: '00',
     miliseconds: '00',
     startDisabled: true,
-    stopDisabled: false,
-    errorMessage: '',
-    
-};
+    stopDisabled: false
+}
 
  
 export const Run = ({navigation}) =>{
@@ -20,8 +19,11 @@ export const Run = ({navigation}) =>{
     const [isStopwatchStart, setIsStopwatchStart] = useState(false);
     const [stopwatchTime, setIsStopwatchTime] = useState(0);
     const [resetStopwatch, setResetStopwatch] = useState(false);
-    const [location , setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+    const [latitude , setLatitude] = useState(null);
+    const [longitude , setLongitude] = useState(null);
+    const [errormsg , setErrorMsg] = useState(null);
+    const [dist, setDistance] = useState('');
+    const [speed, setSpeed] = useState('')
 
 
     const getCoords = async function () {
@@ -32,8 +34,15 @@ export const Run = ({navigation}) =>{
           }
     
           let location = await Location.getCurrentPositionAsync({});
-          setLocation([location.coords.latitude, location.coords.longitude]);
+          setLatitude(location.coords.latitude);
+          setLongitude(location.coords.longitude);
+          var pdis = getPreciseDistance(
+            { latitude: location.coords.latitude, longitude: location.coords.longitude },
+            { latitude: 43.64997445025775, longitude: -79.7634220060566 }
+          );
+          setDistance(`Total Distance ran: ${pdis / 1000} km`);
     }
+   
 
     return (
         <View style={styles.container}>
@@ -58,7 +67,7 @@ export const Run = ({navigation}) =>{
               getCoords()
             }}>
             <Text style={styles.btnText}>
-              {!isStopwatchStart ? 'START' : 'STOP'}
+              {!isStopwatchStart ? 'START RUN' : 'STOP RUN'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -70,16 +79,17 @@ export const Run = ({navigation}) =>{
             <Text style={styles.btnText}>RESET</Text>
           </TouchableOpacity>
         </View>
-
-
-        <View style={styles.container}>
-          <TouchableOpacity onPress={findCoordinates}>
-            <Text style={styles.welcome}>Find My Coords?</Text>
-          </TouchableOpacity>
-            <Text>  Location: {location} </Text>
-			</View>
+        <View style={styles.cont}>
+            <Text style={styles.subtitle}>
+                {dist}
+            </Text>
+            <Text style={styles.subtitle}>
+                Average time in km/min: {6.5}
+            </Text>
+            </View>
         </View>
     )}
+
     const styles = StyleSheet.create({
         container: {
           flex: 1,
@@ -88,11 +98,20 @@ export const Run = ({navigation}) =>{
           justifyContent: 'center',
           backgroundColor: '#7e9abf'
         },
+        cont: {
+            marginTop: 15
+        },
         title: {
             textAlign: 'center',
             fontSize: 20,
             fontWeight: 'bold',
             padding: 20,
+          },
+          subtitle: {
+            textAlign: 'center',
+            fontSize: 20,
+            fontWeight: 'bold',
+            padding: 10,
           },
           sectionStyle: {
             flex: 1,
@@ -134,5 +153,3 @@ export const Run = ({navigation}) =>{
       };
     
 export default Run
-
-       

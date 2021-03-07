@@ -50,7 +50,7 @@ export const Register = ({navigation}) =>{
     
         return(
             <ScreenContainer>
-                <Text style={styles.login_message}>Login to Group Fitness</Text>
+                <Text style={styles.login_message}>Sign Up for GroupFit</Text>
                 <TextInput style={styles.input} placeholder="Full name" autoCapitalize='none' onChangeText={(text) => setFullName(text)} value={fullName}></TextInput>
                 <TextInput style={styles.input2} placeholder="Username" autoCapitalize='none' onChangeText={(text) => setEmail(text)} value={email}></TextInput>
                 <TextInput style={styles.input2} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#7e9abf'
     },
     login_message: {
-      fontSize: 30,
+      fontSize: 35,
       textAlign: 'center',
       color: '#f9aa33',
       fontWeight: 'bold',
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#f9aa33',
       padding: 15,
       width: '45%',
+      borderRadius: 8
     },
     btnText:{
       fontSize: 16,

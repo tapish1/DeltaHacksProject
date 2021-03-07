@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { firebase } from '../firebase/config'
-
-const ScreenContainer = ({ children }) => (
-  <View style={styles.container}>{children}</View>
-);
 
 export const Login = ({navigation}) =>{
   const [email, setEmail] = useState('')
@@ -40,12 +36,14 @@ export const Login = ({navigation}) =>{
 
   return (
     <View style={styles.container}>
-      <Text style={styles.login_message}>Login to Group Fitness</Text>
+      <Text style={styles.login_message}>Welcome to GroupFit</Text>
+      <Image source={require('../assets/logo.png')} style={{ marginTop: 15, width: 120, height: 120 }} />
+
       <TextInput style={styles.input} placeholder="Username" autoCapitalize='none' onChangeText={(text) => setEmail(text)} value={email}></TextInput>
       <TextInput style={styles.input2} placeholder="Password" autoCapitalize='none' secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.usrBtn}>
-          <Text style={styles.btnText} onPress={() => navigation.push("Home")}>Login</Text>
+          <Text style={styles.btnText} onPress={() => onLoginPress()}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.usrBtn} onPress={() => navigation.push("Register")}>
           <Text style={styles.btnText}>Register</Text>
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#7e9abf'
   },
   login_message: {
-    fontSize: 30,
+    fontSize: 35,
     textAlign: 'center',
     color: '#f9aa33',
     fontWeight: 'bold',
@@ -96,6 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9aa33',
     padding: 15,
     width: '45%',
+    borderRadius: 8
   },
   btnText:{
     fontSize: 16,

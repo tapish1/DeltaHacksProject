@@ -5,8 +5,21 @@ import Leaderboard from 'react-native-leaderboard';
 
 this.state = {
     data: [
-        {userName: 'Joe', highScore: 52},
-        {userName: 'Jenny', highScore: 120},
+        {userName: 'Joe', highScore: 5},
+        {userName: 'Jenny', highScore: 0.9},
+        {userName: 'Tapish', highScore: 1.08},
+        {userName: 'Dhruv', highScore: 0.2},
+        {userName: 'Sidhu', highScore: 2},
+        {userName: 'Makh', highScore: 20},
+        {userName: 'Mark', highScore: 5},
+        {userName: 'Sam', highScore: 10},
+        {userName: 'Bupinder', highScore: 1},
+        {userName: 'Juan', highScore: 4},
+        {userName: 'Emily', highScore: 2},
+        {userName: 'Test', highScore: 0},
+        {userName: 'Test2', highScore: 5},
+        {userName: 'Test3', highScore: 3.3},
+
     ] 
 }
 
@@ -25,25 +38,17 @@ export const Team = ({navigation}) =>{
     }
    
     getMarker()
-
-    this.state.data.push({userName: 'Tapish', highScore: 82})
-    this.state.data.push({userName: 'Makh', highScore: 75})
-    this.state.data.push({userName: 'Dhruv', highScore: 21})
-    this.state.data.push({userName: 'Siddu', highScore: 16})
-    this.state.data.push({userName: 'Joe', highScore: 82})
-
-
     
 
      
     return(
         <View style={styles.container}>
-            <Text>LeaderBoard</Text>
-            <Text>{userData.length}</Text>
+            <Text style={styles.title}>Leaderboard</Text>
         <Leaderboard 
         data={this.state.data} 
         sortBy='highScore' 
-        labelBy='userName'/>
+        labelBy='userName'
+        />
         </View>
     )
 }
@@ -56,6 +61,14 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor: '#7e9abf'
     },
+    title: {
+        textAlign: 'center',
+        fontSize: 40,
+        color: '#f9aa33',
+        margin: 10,
+        fontWeight: 'bold',
+        padding: 10,
+      },
     HeadStyle: { 
         height: 50,
         alignContent: "center",
