@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,Alert} from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 import { Location, Permissions} from 'expo';
 state = {
