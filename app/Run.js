@@ -3,13 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
 import * as Location from 'expo-location';
 
+
 state = {
     timer: null,
     counter: '00',
     miliseconds: '00',
     startDisabled: true,
-    stopDisabled: false
-}
+    stopDisabled: false,
+    errorMessage: '',
+    
+};
 
  
 export const Run = ({navigation}) =>{
@@ -31,27 +34,7 @@ export const Run = ({navigation}) =>{
           let location = await Location.getCurrentPositionAsync({});
           setLocation([location.coords.latitude, location.coords.longitude]);
     }
-    /** 
-    useEffect(() => {
-        (async () => {
-          let { status } = await Location.requestPermissionsAsync();
-          if (status !== 'granted') {
-            setErrorMsg('Permission to access location was denied');
-            return;
-          }
-    
-          let location = await Location.getCurrentPositionAsync({});
-          setLocation([location.coords.latitude, location.coords.longitude]);
-        })();
-      }, []);
-    
-      let text = 'Waiting..';
-      if (errorMsg) {
-        text = errorMsg;
-      } else if (location) {
-        text = JSON.stringify(location);
-      }
-*/
+
     return (
         <View style={styles.container}>
             <Stopwatch
@@ -87,13 +70,16 @@ export const Run = ({navigation}) =>{
             <Text style={styles.btnText}>RESET</Text>
           </TouchableOpacity>
         </View>
-        <View>
-            <Text>  Location: {JSON.stringify({location})} </Text>
 
-            </View>
+
+        <View style={styles.container}>
+          <TouchableOpacity onPress={findCoordinates}>
+            <Text style={styles.welcome}>Find My Coords?</Text>
+          </TouchableOpacity>
+            <Text>  Location: {location} </Text>
+			</View>
         </View>
     )}
-
     const styles = StyleSheet.create({
         container: {
           flex: 1,
@@ -148,3 +134,5 @@ export const Run = ({navigation}) =>{
       };
     
 export default Run
+
+       
