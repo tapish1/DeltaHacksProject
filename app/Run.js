@@ -1,6 +1,7 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
+import * as Location from 'expo-location';
 
 state = {
     timer: null,
@@ -16,7 +17,41 @@ export const Run = ({navigation}) =>{
     const [isStopwatchStart, setIsStopwatchStart] = useState(false);
     const [stopwatchTime, setIsStopwatchTime] = useState(0);
     const [resetStopwatch, setResetStopwatch] = useState(false);
- 
+    const [location , setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+
+    const getCoords = async function () {
+        let { status } = await Location.requestPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation([location.coords.latitude, location.coords.longitude]);
+    }
+    /** 
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation([location.coords.latitude, location.coords.longitude]);
+        })();
+      }, []);
+    
+      let text = 'Waiting..';
+      if (errorMsg) {
+        text = errorMsg;
+      } else if (location) {
+        text = JSON.stringify(location);
+      }
+*/
     return (
         <View style={styles.container}>
             <Stopwatch
@@ -37,6 +72,7 @@ export const Run = ({navigation}) =>{
             onPress={() => {
               setIsStopwatchStart(!isStopwatchStart);
               setResetStopwatch(false);
+              getCoords()
             }}>
             <Text style={styles.btnText}>
               {!isStopwatchStart ? 'START' : 'STOP'}
@@ -51,6 +87,10 @@ export const Run = ({navigation}) =>{
             <Text style={styles.btnText}>RESET</Text>
           </TouchableOpacity>
         </View>
+        <View>
+            <Text>  Location: {JSON.stringify({location})} </Text>
+
+            </View>
         </View>
     )}
 
