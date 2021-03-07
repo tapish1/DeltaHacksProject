@@ -41,8 +41,8 @@ export const Login = ({navigation}) =>{
   return (
     <View style={styles.container}>
       <Text style={styles.login_message}>Login to Group Fitness</Text>
-      <TextInput style={styles.input} placeholder="Username" onChangeText={(text) => setEmail(text)} value={email}></TextInput>
-      <TextInput style={styles.input2} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
+      <TextInput style={styles.input} placeholder="Username" autoCapitalize='none' onChangeText={(text) => setEmail(text)} value={email}></TextInput>
+      <TextInput style={styles.input2} placeholder="Password" autoCapitalize='none' secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.usrBtn}>
           <Text style={styles.btnText} onPress={() => onLoginPress()}>Login</Text>

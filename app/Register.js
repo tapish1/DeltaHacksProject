@@ -28,6 +28,8 @@ export const Register = ({navigation}) =>{
                     id: uid,
                     email,
                     fullName,
+                    distance_ran: 0,
+                    calories: 0
                 };
                 const usersRef = firebase.firestore().collection('users')
                 usersRef
@@ -49,10 +51,10 @@ export const Register = ({navigation}) =>{
         return(
             <ScreenContainer>
                 <Text style={styles.login_message}>Login to Group Fitness</Text>
-                <TextInput style={styles.input} placeholder="Full name" onChangeText={(text) => setFullName(text)} value={fullName}></TextInput>
-                <TextInput style={styles.input2} placeholder="Username" onChangeText={(text) => setEmail(text)} value={email}></TextInput>
+                <TextInput style={styles.input} placeholder="Full name" autoCapitalize='none' onChangeText={(text) => setFullName(text)} value={fullName}></TextInput>
+                <TextInput style={styles.input2} placeholder="Username" autoCapitalize='none' onChangeText={(text) => setEmail(text)} value={email}></TextInput>
                 <TextInput style={styles.input2} placeholder="Password" secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
-                <TextInput style={styles.input2} placeholder="Confirm Password" onChangeText={(text) => setConfirmPassword(text)} value={confirmPassword}></TextInput>
+                <TextInput style={styles.input2} placeholder="Confirm Password" secureTextEntry onChangeText={(text) => setConfirmPassword(text)} value={confirmPassword}></TextInput>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity style={styles.usrBtn} onPress={() => onRegisterPress()}>
                         <Text style={styles.btnText}>Sign Up</Text>
