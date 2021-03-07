@@ -45,7 +45,7 @@ export const Login = ({navigation}) =>{
       <TextInput style={styles.input2} placeholder="Password" autoCapitalize='none' secureTextEntry onChangeText={(text) => setPassword(text)} value={password}></TextInput>
       <View style={styles.btnContainer}>
         <TouchableOpacity style={styles.usrBtn}>
-          <Text style={styles.btnText} onPress={() => onLoginPress()}>Login</Text>
+          <Text style={styles.btnText} onPress={() => navigation.push("Home")}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.usrBtn} onPress={() => navigation.push("Register")}>
           <Text style={styles.btnText}>Register</Text>

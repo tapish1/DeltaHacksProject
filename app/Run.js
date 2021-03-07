@@ -1,13 +1,16 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Stopwatch, Timer } from 'react-native-stopwatch-timer';
-
+import { Location, Permissions} from 'expo';
 state = {
+    location: null,
     timer: null,
     counter: '00',
     miliseconds: '00',
     startDisabled: true,
-    stopDisabled: false
+    stopDisabled: false,
+    errorMessage: '',
+    
 }
 
  
@@ -16,7 +19,20 @@ export const Run = ({navigation}) =>{
     const [isStopwatchStart, setIsStopwatchStart] = useState(false);
     const [stopwatchTime, setIsStopwatchTime] = useState(0);
     const [resetStopwatch, setResetStopwatch] = useState(false);
- 
+    
+    findCoordinates = () => {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const location = JSON.stringify(position);
+  
+          this.setState({ location });
+        },
+        error => Alert.alert(error.message),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
+    };
+
+
     return (
         <View style={styles.container}>
             <Stopwatch
@@ -50,6 +66,15 @@ export const Run = ({navigation}) =>{
             }}>
             <Text style={styles.btnText}>RESET</Text>
           </TouchableOpacity>
+        </View>
+        <View> 
+
+        <View style={styles.container}>
+          <TouchableOpacity onPress={this.findCoordinates}>
+            <Text style={styles.welcome}>Find My Coords?</Text>
+            <Text>Location: {this.state.location}</Text>
+          </TouchableOpacity>
+			</View>
         </View>
         </View>
     )}
@@ -108,3 +133,5 @@ export const Run = ({navigation}) =>{
       };
     
 export default Run
+
+       
